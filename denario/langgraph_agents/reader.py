@@ -3,6 +3,7 @@ from langchain_core.runnables import RunnableConfig
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
+from langchain_ollama import ChatOllama
 
 from .parameters import GraphState
 from ..config import INPUT_FILES, IDEA_FILE, METHOD_FILE, LITERATURE_FILE, REFEREE_FILE, PAPER_FOLDER
@@ -31,6 +32,18 @@ def preprocess_node(state: GraphState, config: RunnableConfig):
         state['llm']['llm'] = ChatAnthropic(model=state['llm']['model'],
                                             temperature=state['llm']['temperature'],
                                             anthropic_api_key=state["keys"].ANTHROPIC)
+        
+    # --- ADDED: OLLAMA SUPPORT ---
+    elif 'ollama' in state['llm']['model']:
+        # Extract model name (e.g., "ollama/llama3.2" -> "llama3.2")
+        model_name = state['llm']['model'].replace('ollama/', '')
+        state['llm']['llm'] = ChatOllama(
+            model=model_name,
+            temperature=state['llm']['temperature'] if state['llm']['temperature'] is not None else 0.7,
+            base_url="http://localhost:11434",  # Default Ollama URL
+            num_ctx=8192,  # Context window
+        )
+    # --- END OLLAMA SUPPORT ---
     #########################################
 
     #########################################

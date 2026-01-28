@@ -80,6 +80,65 @@ claude41opus = LLM(name="claude-opus-4-1-20250805",
                    temperature=0)
 """`claude-4.1-Opus` model."""
 
+# =============================================================================
+# Local Ollama Models
+# =============================================================================
+
+ollama_llama32 = LLM(name="ollama/llama3.2",
+                     max_output_tokens=8192,
+                     temperature=0.7)
+"""Llama 3.2 via Ollama (local)."""
+
+ollama_llama31_8b = LLM(name="ollama/llama3.1:8b",
+                        max_output_tokens=8192,
+                        temperature=0.7)
+"""Llama 3.1 8B via Ollama (local)."""
+
+ollama_llama33_70b = LLM(name="ollama/llama3.3:70b",
+                         max_output_tokens=8192,
+                         temperature=0.7)
+"""Llama 3.3 70B via Ollama (local)."""
+
+ollama_qwen25_7b = LLM(name="ollama/qwen2.5:7b",
+                       max_output_tokens=8192,
+                       temperature=0.7)
+"""Qwen 2.5 7B via Ollama (local)."""
+
+ollama_qwen25_14b = LLM(name="ollama/qwen2.5:14b",
+                        max_output_tokens=8192,
+                        temperature=0.7)
+"""Qwen 2.5 14B via Ollama (local)."""
+
+ollama_qwen25_coder = LLM(name="ollama/qwen2.5-coder:7b",
+                          max_output_tokens=8192,
+                          temperature=0.7)
+"""Qwen 2.5 Coder 7B via Ollama (local)."""
+
+ollama_deepseek_r1_8b = LLM(name="ollama/deepseek-r1:8b",
+                            max_output_tokens=16384,
+                            temperature=0.7)
+"""DeepSeek R1 8B via Ollama (local)."""
+
+ollama_deepseek_r1_14b = LLM(name="ollama/deepseek-r1:14b",
+                             max_output_tokens=16384,
+                             temperature=0.7)
+"""DeepSeek R1 14B via Ollama (local)."""
+
+ollama_mistral = LLM(name="ollama/mistral",
+                     max_output_tokens=8192,
+                     temperature=0.7)
+"""Mistral via Ollama (local)."""
+
+ollama_phi4 = LLM(name="ollama/phi4",
+                  max_output_tokens=16384,
+                  temperature=0.7)
+"""Phi-4 via Ollama (local)."""
+
+ollama_gemma2_9b = LLM(name="ollama/gemma2:9b",
+                       max_output_tokens=8192,
+                       temperature=0.7)
+"""Gemma 2 9B via Ollama (local)."""
+
 models : Dict[str, LLM] = {
                             "gemini-2.0-flash" : gemini20flash,
                             "gemini-2.5-flash" : gemini25flash,
@@ -95,5 +154,17 @@ models : Dict[str, LLM] = {
                             "claude-3.7-sonnet" : claude37sonnet,
                             "claude-4-opus" : claude4opus,
                             "claude-4.1-opus" : claude41opus,
+                            # Ollama
+                            "ollama/llama3.2" : ollama_llama32,
+                            "ollama/llama3.1:8b" : ollama_llama31_8b,
+                            "ollama/llama3.3:70b" : ollama_llama33_70b,
+                            "ollama/qwen2.5:7b" : ollama_qwen25_7b,
+                            "ollama/qwen2.5:14b" : ollama_qwen25_14b,
+                            "ollama/qwen2.5-coder:7b" : ollama_qwen25_coder,
+                            "ollama/deepseek-r1:8b" : ollama_deepseek_r1_8b,
+                            "ollama/deepseek-r1:14b" : ollama_deepseek_r1_14b,
+                            "ollama/mistral" : ollama_mistral,
+                            "ollama/phi4" : ollama_phi4,
+                            "ollama/gemma2:9b" : ollama_gemma2_9b,
                            }
 """Dictionary with the available models."""

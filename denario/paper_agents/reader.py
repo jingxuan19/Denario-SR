@@ -4,6 +4,7 @@ import hashlib
 import shutil
 from pathlib import Path
 from langchain_core.runnables import RunnableConfig
+from langchain_ollama import ChatOllama
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
@@ -33,6 +34,18 @@ def preprocess_node(state: GraphState, config: RunnableConfig):
         state['llm']['llm'] = ChatAnthropic(model=state['llm']['model'],
                                             temperature=state['llm']['temperature'],
                                             anthropic_api_key=state["keys"].ANTHROPIC)
+        
+    # --- ADDED: OLLAMA SUPPORT ---
+    elif 'ollama' in state['llm']['model']:
+        # Extract model name (e.g., "ollama/llama3.2" -> "llama3.2")
+        model_name = state['llm']['model'].replace('ollama/', '')
+        state['llm']['llm'] = ChatOllama(
+            model=model_name,
+            temperature=state['llm']['temperature'] if state['llm']['temperature'] is not None else 0.7,
+            base_url="http://localhost:11434",  # Default Ollama URL
+            num_ctx=8192,  # Context window
+        )
+    # --- END OLLAMA SUPPORT ---
     
     # set the tokens usage
     state['tokens'] = {'ti': 0, 'to': 0, 'i': 0, 'o': 0}
@@ -60,7 +73,7 @@ def preprocess_node(state: GraphState, config: RunnableConfig):
                       "Paper_v4":  "paper_v4_final.tex",
                       "Error":     f"{state['files']['Paper_folder']}/Error.txt",
                       "LaTeX_log": f"{state['files']['Paper_folder']}/LaTeX_compilation.log",
-                      "LaTeX_err": f"{state['files']['Paper_folder']}/LaTeX_err.log",                  
+                      "LaTeX_err": f"{state['files']['Paper_folder']}/LaTeX_err.log",
                       "Temp":      f"{state['files']['Paper_folder']}/temp",
                       "LLM_calls": f"{state['files']['Paper_folder']}/LLM_calls.txt",
                       "AAS_keywords": str( LaTeX_DIR / "AAS_keywords.txt" )}

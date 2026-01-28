@@ -1,0 +1,52 @@
+[
+    {
+        "model": "llama3.2",
+        "api_type": "ollama",
+        "client_host": "http://localhost:11434",
+        "native_tool_calls": true,
+        "hide_tools": "if_any_run",
+        "num_ctx": 8192
+    },
+    {
+        "model": "llama3.1:8b",
+        "api_type": "ollama",
+        "client_host": "http://localhost:11434",
+        "native_tool_calls": true,
+        "num_ctx": 8192
+    },
+    {
+        "model": "qwen2.5:7b",
+        "api_type": "ollama",
+        "client_host": "http://localhost:11434",
+        "native_tool_calls": true,
+        "num_ctx": 8192
+    },
+    {
+        "model": "qwen2.5-coder:7b",
+        "api_type": "ollama",
+        "client_host": "http://localhost:11434",
+        "native_tool_calls": true,
+        "num_ctx": 8192
+    },
+    {
+        "model": "deepseek-r1:8b",
+        "api_type": "ollama",
+        "client_host": "http://localhost:11434",
+        "native_tool_calls": true,
+        "num_ctx": 16384
+    },
+    {
+        "model": "mistral",
+        "api_type": "ollama",
+        "client_host": "http://localhost:11434",
+        "native_tool_calls": true,
+        "num_ctx": 8192
+    },
+    {
+        "model": "phi4",
+        "api_type": "ollama",
+        "client_host": "http://localhost:11434",
+        "native_tool_calls": true,
+        "num_ctx": 16384
+    }
+]
