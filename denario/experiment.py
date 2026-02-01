@@ -2,9 +2,9 @@ import re
 from pathlib import Path
 import cmbagent
 
-from .key_manager import KeyManager
-from .prompts.experiment import experiment_planner_prompt, experiment_engineer_prompt, experiment_researcher_prompt
-from .utils import create_work_dir, get_task_result
+from key_manager import KeyManager
+from prompts.experiment import experiment_planner_prompt, experiment_engineer_prompt, experiment_researcher_prompt
+from utils import create_work_dir, get_task_result
 
 class Experiment:
     """

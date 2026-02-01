@@ -113,6 +113,7 @@ The goal is to discover the relationship between these variables.
             print("\n🧠 Generating idea with Ollama (this may take a minute)...")
             den.get_idea(mode="fast", llm="ollama/llama3.2")
             
+            
             print(f"✅ Idea generated successfully!")
             print(f"\n--- Generated Idea ---")
             print(den.research.idea[:500] + "..." if len(den.research.idea) > 500 else den.research.idea)
@@ -133,13 +134,13 @@ def main():
     
     results = []
     
-    # # Test 1: Ollama availability
-    # print("\n[1/4] Checking Ollama availability...")
-    # results.append(("Ollama Available", test_ollama_available()))
+    # Test 1: Ollama availability
+    print("\n[1/4] Checking Ollama availability...")
+    results.append(("Ollama Available", test_ollama_available()))
     
-    # # Test 2: langchain-ollama
-    # print("\n[2/4] Testing langchain-ollama...")
-    # results.append(("langchain-ollama", test_langchain_ollama()))
+    # Test 2: langchain-ollama
+    print("\n[2/4] Testing langchain-ollama...")
+    results.append(("langchain-ollama", test_langchain_ollama()))
     
     # Test 3: Denario import
     print("\n[3/4] Testing Denario import...")
@@ -175,5 +176,6 @@ def main():
 
 
 if __name__ == "__main__":
+    # os.chdir("~/Denario-SR/denario/")
     success = main()
     sys.exit(0 if success else 1)

@@ -2,7 +2,7 @@ import re
 import requests
 from typing import List, Tuple
 
-from ..key_manager import KeyManager
+from key_manager import KeyManager
 
 def _execute_query(payload, keys: KeyManager):
     """

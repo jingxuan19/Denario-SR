@@ -4,7 +4,7 @@ from langchain_core.messages import AnyMessage
 from langgraph.graph.message import add_messages
 
 from .journal import Journal
-from ..key_manager import KeyManager
+from key_manager import KeyManager
 
 # Paper class
 class PAPER(TypedDict):

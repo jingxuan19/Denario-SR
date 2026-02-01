@@ -139,6 +139,30 @@ ollama_gemma2_9b = LLM(name="ollama/gemma2:9b",
                        temperature=0.7)
 """Gemma 2 9B via Ollama (local)."""
 
+# =============================================================================
+# Groq Models (Free tier with excellent function calling)
+# =============================================================================
+
+groq_llama33_70b = LLM(name="groq/llama-3.3-70b-versatile",
+                       max_output_tokens=32768,
+                       temperature=0.7)
+"""Llama 3.3 70B via Groq (free tier)."""
+
+groq_llama31_70b = LLM(name="groq/llama-3.1-70b-versatile",
+                       max_output_tokens=32768,
+                       temperature=0.7)
+"""Llama 3.1 70B via Groq (free tier)."""
+
+groq_llama31_8b = LLM(name="groq/llama-3.1-8b-instant",
+                      max_output_tokens=8192,
+                      temperature=0.7)
+"""Llama 3.1 8B via Groq (free tier, fastest)."""
+
+groq_mixtral = LLM(name="groq/mixtral-8x7b-32768",
+                   max_output_tokens=32768,
+                   temperature=0.7)
+"""Mixtral 8x7B via Groq (free tier)."""
+
 models : Dict[str, LLM] = {
                             "gemini-2.0-flash" : gemini20flash,
                             "gemini-2.5-flash" : gemini25flash,
@@ -166,5 +190,10 @@ models : Dict[str, LLM] = {
                             "ollama/mistral" : ollama_mistral,
                             "ollama/phi4" : ollama_phi4,
                             "ollama/gemma2:9b" : ollama_gemma2_9b,
+                            # Groq (free tier)
+                            "groq/llama-3.3-70b-versatile" : groq_llama33_70b,
+                            "groq/llama-3.1-70b-versatile" : groq_llama31_70b,
+                            "groq/llama-3.1-8b-instant" : groq_llama31_8b,
+                            "groq/mixtral-8x7b-32768" : groq_mixtral,
                            }
 """Dictionary with the available models."""

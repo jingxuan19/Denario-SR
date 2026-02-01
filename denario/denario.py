@@ -7,17 +7,17 @@ from pathlib import Path
 from PIL import Image 
 import cmbagent
 
-from .config import DEFAUL_PROJECT_NAME, INPUT_FILES, PLOTS_FOLDER, DESCRIPTION_FILE, IDEA_FILE, METHOD_FILE, RESULTS_FILE, LITERATURE_FILE
-from .research import Research
-from .key_manager import KeyManager
-from .llm import LLM, models
-from .paper_agents.journal import Journal
-from .idea import Idea
-from .method import Method
-from .experiment import Experiment
-from .paper_agents.agents_graph import build_graph
-from .utils import llm_parser, input_check, check_file_paths, in_notebook
-from .langgraph_agents.agents_graph import build_lg_graph
+from config import DEFAUL_PROJECT_NAME, INPUT_FILES, PLOTS_FOLDER, DESCRIPTION_FILE, IDEA_FILE, METHOD_FILE, RESULTS_FILE, LITERATURE_FILE
+from research import Research
+from key_manager import KeyManager
+from llm import LLM, models
+from paper_agents.journal import Journal
+from idea import Idea
+from method import Method
+from experiment import Experiment
+from paper_agents.agents_graph import build_graph
+from utils import llm_parser, input_check, check_file_paths, in_notebook
+from langgraph_agents.agents_graph import build_lg_graph
 from cmbagent import preprocess_task
 
 class Denario:

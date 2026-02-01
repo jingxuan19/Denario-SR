@@ -6,7 +6,7 @@ from langchain_anthropic import ChatAnthropic
 from langchain_ollama import ChatOllama
 
 from .parameters import GraphState
-from ..config import INPUT_FILES, IDEA_FILE, METHOD_FILE, LITERATURE_FILE, REFEREE_FILE, PAPER_FOLDER
+from config import INPUT_FILES, IDEA_FILE, METHOD_FILE, LITERATURE_FILE, REFEREE_FILE, PAPER_FOLDER
 
 def preprocess_node(state: GraphState, config: RunnableConfig):
     """

@@ -2,9 +2,9 @@ import re
 from pathlib import Path
 import cmbagent
 
-from .key_manager import KeyManager
-from .prompts.method import method_planner_prompt, method_researcher_prompt
-from .utils import create_work_dir, get_task_result
+from key_manager import KeyManager
+from prompts.method import method_planner_prompt, method_researcher_prompt
+from utils import create_work_dir, get_task_result
 
 class Method:
     """

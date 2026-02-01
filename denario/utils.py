@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 import warnings
 
-from .llm import LLM, models
+from llm import LLM, models
 
 def input_check(str_input: str) -> str:
     """Check if the input is a string with the desired content or the path markdown file, in which case reads it to get the content."""
@@ -87,8 +87,9 @@ def get_task_result(chat_history, name: str):
     """Get task result from chat history"""
     
     for obj in chat_history[::-1]:
-        if obj['name'] == name:
-            result = obj['content']
+        # DENARIO SR FIX: prevent crash if 'name' key is missing
+        if obj.get("name") == name:
+            result = obj.get('content')
             break
     task_result = result
     return task_result

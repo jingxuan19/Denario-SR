@@ -14,7 +14,7 @@ from .prompts import abstract_prompt, abstract_reflection, caption_prompt, clean
 from .tools import json_parser3, LaTeX_checker, clean_section, extract_latex_block, LLM_call, temp_file, check_images_in_text
 from .literature import process_tex_file_with_references
 from .latex import compile_latex, save_paper, save_bib, process_bib_file, compile_tex_document, fix_latex, fix_percent
-from ..config import INPUT_FILES
+from config import INPUT_FILES
 
 
 def keywords_node(state: GraphState, config: RunnableConfig):

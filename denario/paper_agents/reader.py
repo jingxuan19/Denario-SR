@@ -11,7 +11,7 @@ from langchain_anthropic import ChatAnthropic
 
 from .parameters import GraphState
 from .latex_presets import journal_dict
-from ..config import INPUT_FILES, IDEA_FILE, METHOD_FILE, RESULTS_FILE, PAPER_FOLDER, PLOTS_FOLDER, LaTeX_DIR
+from config import INPUT_FILES, IDEA_FILE, METHOD_FILE, RESULTS_FILE, PAPER_FOLDER, PLOTS_FOLDER, LaTeX_DIR
 
 
 def preprocess_node(state: GraphState, config: RunnableConfig):
