@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import asyncio
 import time
 import os
@@ -19,6 +19,9 @@ from paper_agents.agents_graph import build_graph
 from utils import llm_parser, input_check, check_file_paths, in_notebook
 from langgraph_agents.agents_graph import build_lg_graph
 from cmbagent import preprocess_task
+
+# Denario SR
+from symbolic_regression import SymbolicRegression, SRConfig, SRResult
 
 class Denario:
     """
@@ -788,6 +791,109 @@ class Denario:
         keywords = cmbagent.get_keywords(input_text, n_keywords = n_keywords, kw_type = kw_type, api_keys = self.keys)
         self.research.keywords = keywords # type: ignore
         print('keywords: ', self.research.keywords)
+        
+    def get_sr(
+        self,
+        SR_module: str = "pysr",
+        data_dir: str = "data",
+        target_column: Optional[str] = None,
+        feature_columns: Optional[List[str]] = None,
+        csv_path: Optional[str] = None,
+        n_iterations: int = 40,
+        max_complexity: int = 25,
+        timeout_seconds: int = 300,
+        auto_discover: bool = True,
+    ) -> List['SRResult']:
+        """
+        Run symbolic regression on experimental data to discover equations.
+        
+        Args:
+            data_dir: Directory containing CSV data files (default: "data")
+            target_column: Name of target variable (for single file mode)
+            feature_columns: Names of feature variables (for single file mode)
+            csv_path: Specific CSV file to analyze (optional)
+            n_iterations: Number of SR iterations
+            max_complexity: Maximum equation complexity
+            timeout_seconds: Timeout in seconds
+            auto_discover: If True, automatically find and analyze all CSVs
+            
+        Returns:
+            List of SRResult objects with discovered equations
+            
+        Example:
+            # Auto-discover equations from all data
+            results = den.get_sr()
+            
+            # Or specify a file
+            results = den.get_sr(
+                csv_path="data/oscillator.csv",
+                target_column="displacement",
+                feature_columns=["time"]
+            )
+        """
+        
+        if SR_module == "pysr":
+            from SR_module.PySR_module import PySRModule
+            self.SR_module = PySRModule()
+        else:
+            raise ValueError(f"Unsupported SR module: {SR_module}")
+        
+        
+        print("\\n" + "="*60)
+        print("SYMBOLIC REGRESSION")
+        print("="*60 + "\\n")
+        
+        config = SRConfig(
+            n_iterations=n_iterations,
+            max_complexity=max_complexity,
+            timeout_seconds=timeout_seconds,
+        )
+        
+        work_dir = os.path.join(
+            self.output_path, 
+            self.experiment_output_dir,
+            "control"
+        )
+        
+        sr_runner = SymbolicRegression(work_dir=work_dir, SR_module=self.SR_module, config=config)
+        
+        if csv_path:
+            # Single file mode
+            full_path = os.path.join(work_dir, csv_path)
+            if not os.path.exists(full_path):
+                raise FileNotFoundError(f"CSV file not found: {full_path}")
+            
+            result = sr_runner.fit_from_csv(full_path, target_column, feature_columns)
+            results = [result]
+        elif auto_discover:
+            # Auto-discover mode
+            results = sr_runner.auto_discover(data_dir)
+        else:
+            raise ValueError("Must provide csv_path or set auto_discover=True")
+        
+        # Save results
+        sr_runner.save_results()
+        
+        # Store for paper generation
+        self.sr_results = results
+        
+        # Print summary
+        print("\\n" + "-"*40)
+        print("DISCOVERED EQUATIONS:")
+        print("-"*40)
+        for i, result in enumerate(results):
+            print(f"\\n[{i+1}] {result.target_name} = {result.equation}")
+            print(f"    LaTeX: {result.latex}")
+            print(f"    R² = {result.r2:.4f}, Complexity = {result.complexity}")
+        
+        # Generate markdown for paper
+        equations_md = sr_runner.get_equations_for_paper()
+        equations_path = os.path.join(work_dir, "discovered_equations.md")
+        with open(equations_path, 'w') as f:
+            f.write(equations_md)
+        print(f"\\nEquations saved to: {equations_path}")
+        
+        return results
 
     def get_paper(self,
                   journal: Journal = Journal.NONE,

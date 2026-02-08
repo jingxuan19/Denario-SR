@@ -85,9 +85,8 @@ def create_work_dir(work_dir: str | Path, name: str) -> Path:
 
 def get_task_result(chat_history, name: str):
     """Get task result from chat history"""
-    
+    # DENARIO SR FIX: tbh I don't think this is much of a fix anyway
     for obj in chat_history[::-1]:
-        # DENARIO SR FIX: prevent crash if 'name' key is missing
         if obj.get("name") == name:
             result = obj.get('content')
             break

@@ -50,7 +50,7 @@ def build_graph(mermaid_diagram=False):
             original_post = requests.post
 
             def patched_post(*args, **kwargs):
-                kwargs.setdefault("timeout", 30)  # Increase timeout to 30 seconds
+                kwargs.setdefault("timeout", 300)  # Increase timeout to 30 seconds, DENARIO SR FIX: for local models require much longer time
                 return original_post(*args, **kwargs)
 
             requests.post = patched_post

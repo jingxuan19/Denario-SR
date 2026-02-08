@@ -139,6 +139,10 @@ ollama_gemma2_9b = LLM(name="ollama/gemma2:9b",
                        temperature=0.7)
 """Gemma 2 9B via Ollama (local)."""
 
+ollama_qwen3_8b = LLM(name="ollama/qwen3:8b",
+                      max_output_tokens=16384,
+                      temperature=0.7)
+
 # =============================================================================
 # Groq Models (Free tier with excellent function calling)
 # =============================================================================
@@ -185,6 +189,7 @@ models : Dict[str, LLM] = {
                             "ollama/qwen2.5:7b" : ollama_qwen25_7b,
                             "ollama/qwen2.5:14b" : ollama_qwen25_14b,
                             "ollama/qwen2.5-coder:7b" : ollama_qwen25_coder,
+                            "ollama/qwen3:8b": ollama_qwen3_8b,
                             "ollama/deepseek-r1:8b" : ollama_deepseek_r1_8b,
                             "ollama/deepseek-r1:14b" : ollama_deepseek_r1_14b,
                             "ollama/mistral" : ollama_mistral,
@@ -192,8 +197,6 @@ models : Dict[str, LLM] = {
                             "ollama/gemma2:9b" : ollama_gemma2_9b,
                             # Groq (free tier)
                             "groq/llama-3.3-70b-versatile" : groq_llama33_70b,
-                            "groq/llama-3.1-70b-versatile" : groq_llama31_70b,
                             "groq/llama-3.1-8b-instant" : groq_llama31_8b,
-                            "groq/mixtral-8x7b-32768" : groq_mixtral,
                            }
 """Dictionary with the available models."""

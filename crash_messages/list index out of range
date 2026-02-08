@@ -1,0 +1,50 @@
+--------------------------------------------------------------------------------
+Selecting next agent based on execution result...
+
+   Model                       agent    Cost  Prompt Tokens  Completion Tokens  Total Tokens
+llama3.2 executor_response_formatter 0.00000           6050                224          6274
+
+
+--------------------------------------------------------------------------------
+Error: cannot access free variable 'classy_sz' where it is not associated with a value in enclosing scope
+
+--------------------------------------------------------------------------------
+Selecting next agent based on execution result...
+
+Traceback (most recent call last):
+  File "/home/tanji/Denario-SR/denario/full_paper.py", line 36, in <module>
+    den.get_results(
+  File "/home/tanji/Denario-SR/denario/denario.py", line 754, in get_results
+    experiment.run_experiment(self.research.data_description)
+  File "/home/tanji/Denario-SR/denario/experiment.py", line 82, in run_experiment
+    results = cmbagent.planning_and_control_context_carryover(data_description,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/cmbagent/cmbagent.py", line 1310, in planning_and_control_context_carryover
+    cmbagent.solve(task,
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/cmbagent/cmbagent.py", line 699, in solve
+    chat_result, context_variables, last_agent = initiate_group_chat(
+                                                 ^^^^^^^^^^^^^^^^^^^^
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/autogen/agentchat/group/multi_agent_chat.py", line 80, in initiate_group_chat
+    chat_result = last_agent.initiate_chat(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/autogen/agentchat/conversable_agent.py", line 1546, in initiate_chat
+    self.send(msg2send, recipient, silent=silent)
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/autogen/agentchat/conversable_agent.py", line 1211, in send
+    recipient.receive(message, self, request_reply, silent)
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/autogen/agentchat/conversable_agent.py", line 1326, in receive
+    reply = self.generate_reply(messages=self.chat_messages[sender], sender=sender)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/autogen/agentchat/conversable_agent.py", line 3233, in generate_reply
+    final, reply = reply_func(self, messages=messages, sender=sender, config=reply_func_tuple["config"])
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/autogen/agentchat/groupchat.py", line 1553, in run_chat
+    reply = speaker.generate_reply(sender=self)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/autogen/agentchat/conversable_agent.py", line 3233, in generate_reply
+    final, reply = reply_func(self, messages=messages, sender=sender, config=reply_func_tuple["config"])
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tanji/denario_env/lib/python3.12/site-packages/autogen/agentchat/conversable_agent.py", line 2780, in generate_tool_calls_reply
+    message = messages[-1]
+              ~~~~~~~~^^^^
+IndexError: list index out of range
+

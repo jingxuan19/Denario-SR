@@ -1,16 +1,27 @@
 import numpy as np
-from symbolic_regression import SymbolicRegression, SRResult
+from symbolic_regression import SRResult
 from typing import List, Optional
 from pysr import PySRRegressor
 from sklearn.metrics import r2_score
 
-class PySRModule(SymbolicRegression):
-    def __init__(self, max_complexity=20, n_iterations=40, populations=15, population_size=33):
-        super().__init__(
-            n_iterations=n_iterations,
-            max_complexity=max_complexity,
-            populations=populations,
-        )
+class PySRModule:
+    def __init__(
+            self,
+            n_iterations: int = 40,
+            max_complexity: int = 25,
+            binary_operators: Optional[List[str]] = None,
+            unary_operators: Optional[List[str]] = None,
+            populations: int = 15,
+            timeout_seconds: Optional[int] = None,
+            ):
+        self.n_iterations = n_iterations
+        self.max_complexity = max_complexity
+        self.binary_operators = binary_operators or ["+", "-", "*", "/"]
+        self.unary_operators = unary_operators or ["sin", "cos", "exp", "log", "sqrt"]
+        self.populations = populations
+        self.timeout_seconds = timeout_seconds
+        
+        self._model = None
         
         self.model = PySRRegressor(
             niterations=self.n_iterations,
