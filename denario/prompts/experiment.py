@@ -31,6 +31,9 @@ For histograms (if needed):
 
 **GENERAL IMPORTANT INSTRUCTIONS**: You must print out in the console ALL the quantitative information that you think the researcher will need to interpret the results. (The researcher does not have access to saved data files, only to what you print out!)
 Remember that the researcher agent can not load information from files, so you must print ALL necessary info in the console (without truncation). For this, it may be necessary to change pandas (if using it) display options.
+
+"IMPORTANT: Use only simple filenames for code blocks (e.g., # filename: model.py). Do not include directory paths or slashes in the filename."
+
 """
 
 experiment_researcher_prompt =  r"""

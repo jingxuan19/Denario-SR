@@ -11,6 +11,8 @@ class Research(BaseModel):
     """The methodology of the project."""
     results: str = Field(default="", description="The results of the project")
     """The results of the project."""
+    sr_results: str = Field(default="", description="The symbolic regression results of the project")
+    """The symbolic regression results of the project."""
     plot_paths: List[str] = Field(default_factory=list, description="The plot paths of the project")
     """The plot paths of the project."""
     keywords: Dict[str, str] | list = Field(default_factory=dict, description="The keywords describing the project")

@@ -2,3 +2,32 @@
 ask for 100gbp from Joy Rook (dept) for funding of api credits
 write 1 page abstract for openai for funding
 check if able to use open models from openrouoter (email)
+
+# Literature Review
+## LLM-SR: SCIENTIFIC EQUATION DISCOVERY VIA
+PROGRAMMING WITH LARGE LANGUAGE MODELS
+https://arxiv.org/pdf/2404.18400
+Talks about using LLMs to generate candidates for numerical optimisation, but rely on scientific priors within token embeddings
+
+## DrSR: LLM based Scientific Equation Discovery with
+Dual Reasoning from Data and Experience
+https://arxiv.org/pdf/2506.04282
+
+## LLM-based Symbolic Regression with Tool-Augmented Multi-Objective Optimization
+https://openreview.net/pdf?id=0L4RWQV8Qa
+NOT ACCEPTED YET, but similar to DrSR
+
+# Work done
+Finally adapted Denario to a free offline model. This required significant changes to cmbagent as well
+
+## Full run for Denario with SR
+I've tested a full run with Offline Denario with SR with the test prompt, which isn't really indicative since the experimenter already has the code to generate the data,
+but still can be run as a sanity check.
+Firstly, there was a problem with the experiment module saving files in the wrong place. This suggests that there may still be some errors varying between runs.
+When the SR module finally ran, it took a while.
+So for this run of the SR module, I tried to use the same method as the experimenter, where the engineer writes the code to load everything into PySR.
+This is causing it to be quite slow, since there are multiple rounds of planning and debugging. This could be solved with a cap on the number of feedback rounds.
+However another method would just be to have a module that takes the data generated and does SR "manually", then use an agent to determine if it makes sense or not.
+I wanted to integrate an interative process like in DrSR, which would require an agentic caller, I think? 
+### After first run
+Ok seems like the agents are just creating new datasets cuz they can't access the previously generated one LOL. I'll inject the directory into the prompt.

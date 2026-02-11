@@ -3,38 +3,41 @@ from pathlib import Path
 import cmbagent
 
 from key_manager import KeyManager
-from prompts.experiment import experiment_planner_prompt, experiment_engineer_prompt, experiment_researcher_prompt
+from prompts.sr import sr_engineer_prompt, sr_planner_prompt, sr_researcher_prompt
 from utils import create_work_dir, get_task_result
 
-class Experiment:
+
+class SymbolicRegression:
     """
-    This class is used to perform the experiment.
+    This class is used to perform the symbolic regression.
+    Hmm how should this be done?
+    Planner -> Engineer (caller) -> Reviewer
     TODO: improve docstring
     """
 
     def __init__(self,
+                 data_dir: str,
                  research_idea: str,
                  methodology: str,
+                 results: str,
                  keys: KeyManager,
                  work_dir: str | Path,
                  involved_agents: list[str] = ['engineer', 'researcher'],
                  engineer_model: str = "gpt-4.1",
                  researcher_model: str = "o3-mini-2025-01-31",
-                 planner_model: str = "gpt-4o",
+                 planner_model: str = "ollama/qwen3:8b",
                  plan_reviewer_model: str = "o3-mini",
-                 restart_at_step: int = -1,
                  hardware_constraints: str | None = None,
                  max_n_attempts: int = 10,
                  max_n_steps: int = 6,
-                 orchestration_model = "gpt-4.1",
-                 formatter_model = "o3-mini",
+                 orchestration_model = "ollama/qwen3:8b",
+                 formatter_model = "ollama/qwen3:8b",
                 ):
         
-        self.engineer_model = engineer_model
-        self.researcher_model = researcher_model
         self.planner_model = planner_model
         self.plan_reviewer_model = plan_reviewer_model
-        self.restart_at_step = restart_at_step
+        self.engineer_model = engineer_model
+        self.researcher_model = researcher_model
         if hardware_constraints is None:
             hardware_constraints = ""
         self.hardware_constraints = hardware_constraints
@@ -45,26 +48,32 @@ class Experiment:
 
         self.api_keys = keys
 
-        self.experiment_dir = create_work_dir(work_dir, "experiment")
+        self.experiment_dir = create_work_dir(work_dir, "sr")
 
         involved_agents_str = ', '.join(involved_agents)
 
         # Set prompts
-        self.planner_append_instructions = experiment_planner_prompt.format(
+        self.planner_append_instructions = sr_planner_prompt.format(
             research_idea = research_idea,
             methodology = methodology,
+            results = results,
             involved_agents_str = involved_agents_str
         )
-        self.engineer_append_instructions = experiment_engineer_prompt.format(
+        
+        self.engineer_append_instructions = sr_engineer_prompt.format(
             research_idea = research_idea,
             methodology = methodology,
+            results = results,
+            data_dir = data_dir
         )
-        self.researcher_append_instructions = experiment_researcher_prompt.format(
+        
+        self.researcher_append_instructions = sr_researcher_prompt.format(
             research_idea = research_idea,
             methodology = methodology,
+            results = results,
         )
 
-    def run_experiment(self, data_description: str, **kwargs):
+    def run_sr(self, data_description: str, **kwargs):
         """
         Run the experiment.
         TODO: improve docstring
@@ -76,7 +85,7 @@ class Experiment:
         print(f"Plan reviewer model: {self.plan_reviewer_model}")
         print(f"Max n attempts: {self.max_n_attempts}")
         print(f"Max n steps: {self.max_n_steps}")
-        print(f"Restart at step: {self.restart_at_step}")
+        # print(f"Restart at step: {self.restart_at_step}")
         print(f"Hardware constraints: {self.hardware_constraints}")
 
         results = cmbagent.planning_and_control_context_carryover(data_description,
@@ -93,14 +102,14 @@ class Experiment:
                             engineer_instructions=self.engineer_append_instructions,
                             work_dir = self.experiment_dir,
                             api_keys = self.api_keys,
-                            restart_at_step = self.restart_at_step,
+                            # restart_at_step = self.restart_at_step,
                             hardware_constraints = self.hardware_constraints,
                             default_llm_model = self.orchestration_model,
                             default_formatter_model = self.formatter_model
                             )
         chat_history = results['chat_history']
         final_context = results['final_context']
-                
+        
         try:
             task_result = get_task_result(chat_history,'researcher_response_formatter')
         except Exception as e:

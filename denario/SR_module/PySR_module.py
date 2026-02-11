@@ -1,5 +1,5 @@
 import numpy as np
-from symbolic_regression import SRResult
+from denario.sr import SRResult
 from typing import List, Optional
 from pysr import PySRRegressor
 from sklearn.metrics import r2_score
@@ -54,7 +54,7 @@ class PySRModule:
         self.model.fit(X, y, variable_names=variable_names)
         
         # Extract best equation
-        best_idx = self.model.equations_["loss"].idxmin()
+        best_idx = self.model.equations_["score"].idxmax() 
         best = self.model.equations_.loc[best_idx]
         
         # Predict and compute R2

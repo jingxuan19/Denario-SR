@@ -24,35 +24,27 @@ den.get_method(llm="ollama/llama3.2")
 den.show_method()
 
 den.get_results(
-    engineer_model="groq/llama-3.1-8b-instant",
-    researcher_model="groq/llama-3.1-8b-instant",
-    planner_model="groq/llama-3.1-8b-instant",
-    plan_reviewer_model="groq/llama-3.1-8b-instant",
-    orchestration_model="groq/llama-3.1-8b-instant",
-    formatter_model="ollama/llama3.2",
-    # restart_at_step=2
-)
-
-den.get_results(
     engineer_model="ollama/qwen3:8b",
     researcher_model="ollama/qwen3:8b",
     planner_model="ollama/qwen3:8b",
     plan_reviewer_model="ollama/qwen3:8b",
     orchestration_model="ollama/qwen3:8b",
     formatter_model="ollama/qwen3:8b",
-    restart_at_step=4,
+    restart_at_step=1,
 )
 
 den.show_results()
 
 den.get_sr(
-    SR_module="pysr",
-    data_dir="data",
-    target_column="y",
-    feature_columns=["time"]
+    planner_model="ollama/qwen3:8b",
+    plan_reviewer_model="ollama/qwen3:8b",
+    engineer_model="ollama/qwen3:8b",
+    researcher_model="ollama/qwen3:8b",
+    orchestration_model="ollama/qwen3:8b",
+    formatter_model="ollama/qwen3:8b",
 )
 
-den.get_paper(journal=Journal.APS,
-              llm="ollama/qwen3:8b",
-              add_citations=False
-              )
+# den.get_paper(journal=Journal.APS,
+#               llm="ollama/qwen3:8b",
+#               add_citations=False
+#               )

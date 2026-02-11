@@ -7,7 +7,7 @@ from pathlib import Path
 from PIL import Image 
 import cmbagent
 
-from config import DEFAUL_PROJECT_NAME, INPUT_FILES, PLOTS_FOLDER, DESCRIPTION_FILE, IDEA_FILE, METHOD_FILE, RESULTS_FILE, LITERATURE_FILE
+from config import DEFAUL_PROJECT_NAME, INPUT_FILES, PLOTS_FOLDER, DESCRIPTION_FILE, IDEA_FILE, METHOD_FILE, RESULTS_FILE, LITERATURE_FILE, SR_FILE
 from research import Research
 from key_manager import KeyManager
 from llm import LLM, models
@@ -21,7 +21,7 @@ from langgraph_agents.agents_graph import build_lg_graph
 from cmbagent import preprocess_task
 
 # Denario SR
-from symbolic_regression import SymbolicRegression, SRConfig, SRResult
+from sr import SymbolicRegression
 
 class Denario:
     """
@@ -135,6 +135,10 @@ class Denario:
         """Manually set the results, either directly from a string or providing the path of a markdown file with the results."""
         
         self.research.results = self.setter(results, RESULTS_FILE)
+        
+    def set_sr_results(self, results: str | None = None) -> None:
+        """Manually set symbolic regression results, either directly from a string or providing the path of a markdown file with the results."""
+        self.research.sr_results = self.setter(results, SR_FILE)
 
     def set_plots(self, plots: list[str] | list[Image.Image] | None = None) -> None:
         """Manually set the plots from their path."""
@@ -161,6 +165,7 @@ class Denario:
             self.set_idea,
             self.set_method,
             self.set_results,
+            self.set_sr_results,
             self.set_plots,
         ):
             try:
@@ -200,6 +205,10 @@ class Denario:
         """Show the obtained results."""
 
         self.printer(self.research.results)
+        
+    def show_sr_results(self) -> None:
+        """Show the obtained symbolic regression results."""
+        self.printer(self.research.sr_results)
 
     def show_keywords(self) -> None:
         """Show the keywords."""
@@ -792,108 +801,87 @@ class Denario:
         self.research.keywords = keywords # type: ignore
         print('keywords: ', self.research.keywords)
         
-    def get_sr(
-        self,
-        SR_module: str = "pysr",
-        data_dir: str = "data",
-        target_column: Optional[str] = None,
-        feature_columns: Optional[List[str]] = None,
-        csv_path: Optional[str] = None,
-        n_iterations: int = 40,
-        max_complexity: int = 25,
-        timeout_seconds: int = 300,
-        auto_discover: bool = True,
-    ) -> List['SRResult']:
+    def get_sr(self,
+               data_dir="",
+                involved_agents: List[str] = ['engineer', 'researcher'],
+                engineer_model: LLM | str = models["gpt-4.1"],
+                researcher_model: LLM | str = models["o3-mini"],
+                restart_at_step: int = -1,
+                hardware_constraints: str | None = None,
+                planner_model: LLM | str = models["gpt-4o"],
+                plan_reviewer_model: LLM | str = models["o3-mini"],
+                max_n_attempts: int = 10,
+                max_n_steps: int = 6,   
+                orchestration_model: LLM | str = models["gpt-4.1"],
+                formatter_model: LLM | str = models["o3-mini"],
+                ) -> None:
         """
-        Run symbolic regression on experimental data to discover equations.
-        
+        Compute the results making use of the methods, idea and data description.
+
         Args:
-            data_dir: Directory containing CSV data files (default: "data")
-            target_column: Name of target variable (for single file mode)
-            feature_columns: Names of feature variables (for single file mode)
-            csv_path: Specific CSV file to analyze (optional)
-            n_iterations: Number of SR iterations
-            max_complexity: Maximum equation complexity
-            timeout_seconds: Timeout in seconds
-            auto_discover: If True, automatically find and analyze all CSVs
-            
-        Returns:
-            List of SRResult objects with discovered equations
-            
-        Example:
-            # Auto-discover equations from all data
-            results = den.get_sr()
-            
-            # Or specify a file
-            results = den.get_sr(
-                csv_path="data/oscillator.csv",
-                target_column="displacement",
-                feature_columns=["time"]
-            )
+            involved_agents: List of agents employed to compute the results.
+            engineer_model: the LLM model to be used for the engineer agent.
+            researcher_model: the LLM model to be used for the researcher agent.
+            hardware_constraints: the hardware constraints to be used for the experiment.
+            orchestration_model: the LLM model to be used for the orchestration of the agents.
+            formatter_model: the LLM model to be used for the formatting of the responses of the agents.
+            max_n_attempts: the maximum number of attempts to execute code within one step if the code execution fails.
+            max_n_steps: the maximum number of steps in the workflow.
         """
-        
-        if SR_module == "pysr":
-            from SR_module.PySR_module import PySRModule
-            self.SR_module = PySRModule()
-        else:
-            raise ValueError(f"Unsupported SR module: {SR_module}")
-        
-        
-        print("\\n" + "="*60)
-        print("SYMBOLIC REGRESSION")
-        print("="*60 + "\\n")
-        
-        config = SRConfig(
-            n_iterations=n_iterations,
-            max_complexity=max_complexity,
-            timeout_seconds=timeout_seconds,
-        )
-        
-        work_dir = os.path.join(
-            self.output_path, 
-            self.experiment_output_dir,
-            "control"
-        )
-        
-        sr_runner = SymbolicRegression(work_dir=work_dir, SR_module=self.SR_module, config=config)
-        
-        if csv_path:
-            # Single file mode
-            full_path = os.path.join(work_dir, csv_path)
-            if not os.path.exists(full_path):
-                raise FileNotFoundError(f"CSV file not found: {full_path}")
+
+        # Get LLM instances
+        engineer_model = llm_parser(engineer_model)
+        researcher_model = llm_parser(researcher_model)
+        planner_model = llm_parser(planner_model)
+        plan_reviewer_model = llm_parser(plan_reviewer_model)
+        orchestration_model = llm_parser(orchestration_model)
+        formatter_model = llm_parser(formatter_model)
+
+        if self.research.data_description == "":
+            with open(os.path.join(self.project_dir, INPUT_FILES, DESCRIPTION_FILE), 'r') as f:
+                self.research.data_description = f.read()
+
+        if self.research.idea == "":
+            with open(os.path.join(self.project_dir, INPUT_FILES, IDEA_FILE), 'r') as f:
+                self.research.idea = f.read()
+
+        if self.research.methodology == "":
+            with open(os.path.join(self.project_dir, INPUT_FILES, METHOD_FILE), 'r') as f:
+                self.research.methodology = f.read()
+                
+        if self.research.results == "":
+            with open(os.path.join(self.project_dir, INPUT_FILES, RESULTS_FILE), 'r') as f:
+                self.research.results = f.read()
+                
+        if data_dir=="":
+            data_dir = os.path.join(self.project_dir, "experiment_generation_output", "control", "data")
             
-            result = sr_runner.fit_from_csv(full_path, target_column, feature_columns)
-            results = [result]
-        elif auto_discover:
-            # Auto-discover mode
-            results = sr_runner.auto_discover(data_dir)
-        else:
-            raise ValueError("Must provide csv_path or set auto_discover=True")
+
+        sr_runner = SymbolicRegression(data_dir=data_dir,
+                                       research_idea=self.research.idea,
+                                methodology=self.research.methodology,
+                                results=self.research.results,
+                                involved_agents=involved_agents,
+                                engineer_model=engineer_model.name,
+                                researcher_model=researcher_model.name,
+                                planner_model=planner_model.name,
+                                plan_reviewer_model=plan_reviewer_model.name,
+                                work_dir = self.project_dir,
+                                keys=self.keys,
+                                hardware_constraints = hardware_constraints,
+                                max_n_attempts=max_n_attempts,
+                                max_n_steps=max_n_steps,
+                                orchestration_model = orchestration_model.name,
+                                formatter_model = formatter_model.name)
         
-        # Save results
-        sr_runner.save_results()
-        
-        # Store for paper generation
-        self.sr_results = results
-        
-        # Print summary
-        print("\\n" + "-"*40)
-        print("DISCOVERED EQUATIONS:")
-        print("-"*40)
-        for i, result in enumerate(results):
-            print(f"\\n[{i+1}] {result.target_name} = {result.equation}")
-            print(f"    LaTeX: {result.latex}")
-            print(f"    R² = {result.r2:.4f}, Complexity = {result.complexity}")
-        
-        # Generate markdown for paper
-        equations_md = sr_runner.get_equations_for_paper()
-        equations_path = os.path.join(work_dir, "discovered_equations.md")
-        with open(equations_path, 'w') as f:
-            f.write(equations_md)
-        print(f"\\nEquations saved to: {equations_path}")
-        
-        return results
+        sr_runner.run_sr(self.research.data_description)
+        self.research.sr_results = sr_runner.results
+        # self.research.plot_paths = sr_runner.plot_paths
+
+        # Write results to file
+        results_path = os.path.join(self.project_dir, INPUT_FILES, SR_FILE)
+        with open(results_path, 'w') as f:
+            f.write(self.research.sr_results)
 
     def get_paper(self,
                   journal: Journal = Journal.NONE,
