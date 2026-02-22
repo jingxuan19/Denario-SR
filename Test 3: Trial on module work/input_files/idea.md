@@ -1,0 +1,1 @@
+Exploring the Invariance of Natural Gradient Descent under Smooth Reparametrization: A Study on Adaptive Learning Rates

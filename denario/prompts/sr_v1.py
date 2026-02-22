@@ -5,35 +5,13 @@ sr_planner_prompt = r"""
 
 {results}
 
-Instruction for planning:
-
-Given these datasets, and information on the features and project idea, we want to discover an analytical mathematical expression that describes the data generated.
-
+Your goal is to guide the discovery of an analytical mathematical expression for the data generated in the previous experiment. 
 1. Identify the target variable and the independent features from the data description.
 2. Plan steps to load the data, perform symbolic regression using the 'pysr' library, and validate the results. The plan must strictly involve only the following agents: {involved_agents_str}.
 3. Ensure the engineer reports the final LaTeX equation, complexity, and R2 score.
 
 The final step of the plan, carried out by the researcher agent, must be entirely dedicated to writting the full Results section of the paper or report. 
 The final result report will be what will be passed on to the paper writer agents, so all relevant information must be included in the final report (everything else will be discarded).
-
-{research_idea}
-
-Instruction for planning:
-
-Given these datasets, and information on the features and project idea, we want to design a methodology to implement this idea.
-The goal of the task is to write a plan that will be used to generate a detailed description of the methodology that will be used to perform the research project.
-
-- Start by requesting the *researcher* to provide reasoning  relevant to the given project idea.
-- Clarify the specific hypotheses, assumptions, or questions that should be investigated.
-- This can be done in multiple steps. 
-- The focus should be strictly on the methods and workflow for this specific project to be performed. **Do not include** any discussion of future directions, future work, project extensions, or limitations.
-- The description should be written as if it were a senior researcher explaining to her research assistant how to perform the research necessary for this project.
-
-The final step of the plan must be entirely dedicated to writing the full Methodology description.
-
-The only agent involved in this workflow is the researcher.
-
-In this task we do not perform any calculations or analyses, only outline the methodology. 
 """
 
 

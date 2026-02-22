@@ -1,0 +1,59 @@
+{
+    "sub_tasks": [
+        {
+            "sub_task": "Engineer sets up computational environment and prepares datasets.",
+            "sub_task_agent": "engineer",
+            "bullet_points": [
+                "Install required libraries (e.g., PyTorch, NumPy, SciPy).",
+                "Generate synthetic datasets for baseline experiments.",
+                "Save datasets in structured formats (e.g., HDF5, CSV) for reproducibility."
+            ]
+        },
+        {
+            "sub_task": "Engineer validates reparametrization strategies.",
+            "sub_task_agent": "engineer",
+            "bullet_points": [
+                "Implement multiple reparametrization techniques (e.g., affine transformations, nonlinear mappings).",
+                "Compute gradients and Jacobians for each reparametrization.",
+                "Perform symmetry checks to validate theoretical invariance criteria."
+            ]
+        },
+        {
+            "sub_task": "Engineer computes Fisher matrix components.",
+            "sub_task_agent": "engineer",
+            "bullet_points": [
+                "Calculate diagonal and off-diagonal elements of the Fisher information matrix.",
+                "Use model-specific gradients and Hessian approximations.",
+                "Save numerical results for downstream analysis."
+            ]
+        },
+        {
+            "sub_task": "Engineer benchmarks SGD implementation.",
+            "sub_task_agent": "engineer",
+            "bullet_points": [
+                "Train SGD on baseline and reparametrized models.",
+                "Track gradient norms, loss curves, and convergence rates.",
+                "Compare results against theoretical expectations (e.g., gradient behavior)."
+            ]
+        },
+        {
+            "sub_task": "Engineer generates visualizations and tables.",
+            "sub_task_agent": "engineer",
+            "bullet_points": [
+                "Plot gradient behavior, Fisher matrix conditioning, and convergence metrics.",
+                "Create tables summarizing key statistics (e.g., gradient norms, training times).",
+                "Export figures and tables for inclusion in the results section."
+            ]
+        },
+        {
+            "sub_task": "Researcher writes full results section.",
+            "sub_task_agent": "researcher",
+            "bullet_points": [
+                "Structure results into subsections (e.g., \"Gradient Behavior,\" \"Fisher Matrix Analysis\").",
+                "Interpret plots and tables in the context of theoretical invariance.",
+                "Discuss implications for optimization stability and convergence.",
+                "Reference all generated figures and tables in the narrative."
+            ]
+        }
+    ]
+}

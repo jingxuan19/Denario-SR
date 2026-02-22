@@ -3,7 +3,7 @@ from pathlib import Path
 import cmbagent
 
 from key_manager import KeyManager
-from denario.prompts.sr import sr_engineer_prompt, sr_planner_prompt, sr_researcher_prompt
+from denario.prompts.sr_v1 import sr_engineer_prompt, sr_planner_prompt, sr_researcher_prompt
 from utils import create_work_dir, get_task_result
 
 

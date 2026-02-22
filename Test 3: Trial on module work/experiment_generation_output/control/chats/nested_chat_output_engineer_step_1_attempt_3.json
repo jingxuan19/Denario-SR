@@ -1,0 +1,46 @@
+[
+  {
+    "name": "engineer_response_formatter",
+    "content": "**Code Explanation:**\n\nInstalls PyTorch, NumPy, and SciPy with version verification. Generates synthetic datasets with 1000 samples containing two features (normal and exponential distributions) and a binary target. Saves datasets in both CSV and HDF5 formats in the data/ directory. Prints confirmation messages for installation status, dataset statistics, and file paths.\n\n**Python Code:**\n\n```python\n# filename: setup_env.py\nimport sys\nimport subprocess\nimport numpy as np\nimport pandas as pd\nimport os\n\n# 1. Install dependencies\ntry:\n    # Check if torch is installed\n    import torch\n    print(f\"PyTorch version: {torch.__version__}\")\n    print(f\"CUDA available: {torch.cuda.is_available()}\")\nexcept ImportError:\n    print(\"PyTorch not found. Installing...\")\n    subprocess.check_call([sys.executable, \"-m\", \"pip\", \"install\", \"torch\"])\n    import torch\n    print(f\"PyTorch version: {torch.__version__}\")\n    print(f\"CUDA available: {torch.cuda.is_available()}\")\n\ntry:\n    import scipy\n    print(f\"SciPy version: {scipy.__version__}\")\nexcept ImportError:\n    print(\"SciPy not found. Installing...\")\n    subprocess.check_call([sys.executable, \"-m\", \"pip\", \"install\", \"scipy\"])\n    import scipy\n    print(f\"SciPy version: {scipy.__version__}\")\n\n# 2. Generate synthetic data\nimport random\n\n# Create 1000 samples with two features and one target\nfeatures = []\ntargets = []\nfor _ in range(1000):\n    feature1 = random.gauss(0, 1)  # Normal distribution\n    feature2 = random.expovariate(0.5)  # Exponential distribution\n    features.append([feature1, feature2])\n    # Simple linear relationship with noise\n    target = 2 * feature1 + 3 * feature2 + random.gauss(0, 0.1)\n    targets.append(target)\n\n# Convert to DataFrame\nimport pandas as pd\ndata = pd.DataFrame(features, columns=[\"feature1\", \"feature2\"])\ndata[\"target\"] = targets\n\n# 3. Save datasets\nos.makedirs(\"data\", exist_ok=True)\ndata.to_csv(\"data/synthetic_data.csv\", index=False)\nprint(f\"Saved CSV: data/synthetic_data.csv\")\n\n# Additional HDF5 format\nimport h5py\nwith h5py.File(\"data/synthetic_data.h5\", \"w\") as f:\n    f.create_dataset(\"features\", data=np.column_stack((data[\"feature1\"], data[\"feature2\"])))\n    f.create_dataset(\"targets\", data=data[\"target\"].values)\nprint(f\"Saved HDF5: data/synthetic_data.h5\")\n\n# 4. Print confirmation\nprint(\"\\nEnvironment setup complete!\")\nprint(\"Installed packages:\")\nprint(f\"  PyTorch: {torch.__version__}\")\nprint(f\"  NumPy: {np.__version__}\")\nprint(f\"  SciPy: {scipy.__version__}\")\nprint(\"\\nDatasets saved in data/ directory:\")\nprint(\"  synthetic_data.csv\")\nprint(\"  synthetic_data.h5\")\n```",
+    "timestamp": "2026-02-21 18:42:20",
+    "cost": {
+      "Agent": [
+        "engineer_response_formatter",
+        "engineer_response_formatter"
+      ],
+      "Model": [
+        "qwen3:8b",
+        "qwen3:8b"
+      ],
+      "Cost": [
+        0.0,
+        0.0
+      ],
+      "Prompt Tokens": [
+        1732,
+        1806
+      ],
+      "Completion Tokens": [
+        627,
+        769
+      ],
+      "Total Tokens": [
+        2359,
+        2575
+      ]
+    }
+  },
+  {
+    "name": "executor",
+    "content": "Execution results:\n\nExecution output: \nPyTorch version: 2.10.0+cpu\nCUDA available: False\nSciPy version: 1.17.0\nSaved CSV: data/synthetic_data.csv\nSaved HDF5: data/synthetic_data.h5\n\nEnvironment setup complete!\nInstalled packages:\n  PyTorch: 2.10.0+cpu\n  NumPy: 2.4.1\n  SciPy: 1.17.0\n\nDatasets saved in data/ directory:\n  synthetic_data.csv\n  synthetic_data.h5\n",
+    "timestamp": "2026-02-21 18:42:25",
+    "cost": {
+      "Agent": [],
+      "Model": [],
+      "Cost": [],
+      "Prompt Tokens": [],
+      "Completion Tokens": [],
+      "Total Tokens": []
+    }
+  }
+]

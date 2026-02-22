@@ -1,0 +1,58 @@
+[
+  {
+    "Agent": "engineer response formatter",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 3538.0,
+    "Completion Tokens": 1396.0,
+    "Total Tokens": 4934.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "installer",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 1649.0,
+    "Completion Tokens": 30.0,
+    "Total Tokens": 1679.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "terminator",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 1895.0,
+    "Completion Tokens": 548.0,
+    "Total Tokens": 2443.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "executor response formatter",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 6163.0,
+    "Completion Tokens": 3064.0,
+    "Total Tokens": 9227.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "engineer",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 6144.0,
+    "Completion Tokens": 4357.0,
+    "Total Tokens": 10501.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "control",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 12492.0,
+    "Completion Tokens": 4905.0,
+    "Total Tokens": 17397.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "Total",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 31881.0,
+    "Completion Tokens": 14300.0,
+    "Total Tokens": 46181.0,
+    "Model": NaN
+  }
+]

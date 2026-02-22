@@ -86,6 +86,7 @@ def create_work_dir(work_dir: str | Path, name: str) -> Path:
 def get_task_result(chat_history, name: str):
     """Get task result from chat history"""
     # DENARIO SR FIX: tbh I don't think this is much of a fix anyway
+    result = None
     for obj in chat_history[::-1]:
         if obj.get("name") == name:
             result = obj.get('content')

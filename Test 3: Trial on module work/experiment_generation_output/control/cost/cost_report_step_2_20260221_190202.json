@@ -1,0 +1,50 @@
+[
+  {
+    "Agent": "researcher response formatter",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 1542.0,
+    "Completion Tokens": 826.0,
+    "Total Tokens": 2368.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "researcher",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 2048.0,
+    "Completion Tokens": 2273.0,
+    "Total Tokens": 4321.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "terminator",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 1373.0,
+    "Completion Tokens": 378.0,
+    "Total Tokens": 1751.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "control starter",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 1370.0,
+    "Completion Tokens": 1713.0,
+    "Total Tokens": 3083.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "control",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 4096.0,
+    "Completion Tokens": 1572.0,
+    "Total Tokens": 5668.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "Total",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 10429.0,
+    "Completion Tokens": 6762.0,
+    "Total Tokens": 17191.0,
+    "Model": NaN
+  }
+]

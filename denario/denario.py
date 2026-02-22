@@ -21,7 +21,7 @@ from langgraph_agents.agents_graph import build_lg_graph
 from cmbagent import preprocess_task
 
 # Denario SR
-from sr import SymbolicRegression
+# from denario.sr import SymbolicRegression
 
 class Denario:
     """

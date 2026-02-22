@@ -1,0 +1,66 @@
+[
+  {
+    "Agent": "planner",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 56201.0,
+    "Completion Tokens": 27813.0,
+    "Total Tokens": 84014.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "review recorder",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 7604.0,
+    "Completion Tokens": 12909.0,
+    "Total Tokens": 20513.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "planner response formatter",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 34201.0,
+    "Completion Tokens": 15589.0,
+    "Total Tokens": 49790.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "plan setter",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 2048.0,
+    "Completion Tokens": 437.0,
+    "Total Tokens": 2485.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "plan recorder",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 20274.0,
+    "Completion Tokens": 20803.0,
+    "Total Tokens": 41077.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "plan reviewer",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 43008.0,
+    "Completion Tokens": 21090.0,
+    "Total Tokens": 64098.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "reviewer response formatter",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 12209.0,
+    "Completion Tokens": 4508.0,
+    "Total Tokens": 16717.0,
+    "Model": "qwen3:8b"
+  },
+  {
+    "Agent": "Total",
+    "Cost ($)": 0.0,
+    "Prompt Tokens": 175545.0,
+    "Completion Tokens": 103149.0,
+    "Total Tokens": 278694.0,
+    "Model": NaN
+  }
+]
